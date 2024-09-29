@@ -6,6 +6,8 @@ class User {
   final String token;
   List<Warehouse>? warehouses;
 
+  Warehouse get warehouse => warehouses![0];
+
   User({
     required this.isAdmin,
     required this.username,
