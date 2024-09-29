@@ -5,6 +5,7 @@ import 'package:itasoft_technical_test/helper/global_var.dart';
 import 'package:itasoft_technical_test/pages/dashboard/dashboard.controller.dart';
 import 'package:itasoft_technical_test/theme/theme.dart';
 import 'package:itasoft_technical_test/widget/app_custom_appbar.dart';
+import 'package:itasoft_technical_test/widget/app_data_not_found.dart';
 import 'package:itasoft_technical_test/widget/app_logout.dart';
 import 'package:itasoft_technical_test/widget/app_product_card.dart';
 import 'package:itasoft_technical_test/widget/app_product_card_skeleton.dart';
@@ -33,14 +34,27 @@ class DashboardPage extends GetView<DashboardController> {
           noData: controller.lastPage,
           onLoading: controller.onLoad,
           onRefresh: controller.onRefresh,
-          child: ListView(
+          child: CustomScrollView(
             controller: controller.scrollC,
-            padding: const EdgeInsets.all(AppTheme.padding),
-            children: [
-              const AppUserHeader(),
-              warehouseCard(),
-              filter(),
-              productList(),
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppTheme.padding),
+              ),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppTheme.padding),
+                  child: AppUserHeader(),
+                ),
+              ),
+              SliverToBoxAdapter(child: warehouseCard()),
+              SliverToBoxAdapter(child: filter()),
+              if (controller.products.isNotEmpty)
+                SliverToBoxAdapter(child: productList())
+              else
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: AppDataNotFound(),
+                ),
             ],
           ),
         ),
@@ -49,53 +63,60 @@ class DashboardPage extends GetView<DashboardController> {
   }
 
   Widget warehouseCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(top: 16, bottom: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppTheme.borderColor),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            margin: const EdgeInsets.only(right: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppTheme.primaryColor.withOpacity(.1),
-            ),
-            child: Text(
-              user.warehouse.initial,
-              style: const TextStyle(
-                fontSize: 16,
-                color: AppTheme.primaryColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.padding),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(top: 16, bottom: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: AppTheme.borderColor),
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              margin: const EdgeInsets.only(right: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: AppTheme.primaryColor.withOpacity(.1),
+              ),
+              child: Text(
+                user.warehouse.initial,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: AppTheme.primaryColor,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(user.warehouse.warehouseName),
-                const Text(
-                  "Makanan, Minuman, Stationary, Meidicine",
-                  style: TextStyle(fontSize: 12, color: AppTheme.capColor),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(user.warehouse.warehouseName),
+                  const Text(
+                    "Makanan, Minuman, Stationary, Meidicine",
+                    style: TextStyle(fontSize: 12, color: AppTheme.capColor),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget filter() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(
+        bottom: 16.0,
+        right: AppTheme.padding,
+        left: AppTheme.padding,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -124,9 +145,6 @@ class DashboardPage extends GetView<DashboardController> {
       onTap: controller.changeSortFilter,
       child: Container(
         height: 47,
-        // padding: const EdgeInsets.symmetric(
-        //   vertical: 14,
-        // ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: AppTheme.textFieldBorderColor),
@@ -170,6 +188,7 @@ class DashboardPage extends GetView<DashboardController> {
       () => GridView(
         shrinkWrap: true,
         controller: controller.scrollC,
+        padding: const EdgeInsets.symmetric(horizontal: AppTheme.padding),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 8,
