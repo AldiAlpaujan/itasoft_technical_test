@@ -36,7 +36,7 @@ Future<bool?> info({
               Get.back(result: true);
             }
           },
-          child: const Text('OK'),
+          child: const Text('Iya'),
         )
       ],
     ),
@@ -74,7 +74,7 @@ error({required String message, Function? onOk}) {
               Get.back();
             }
           },
-          child: const Text('OK'),
+          child: const Text('Iya'),
         )
       ],
     ),
@@ -105,7 +105,7 @@ Future<bool?> confirm({
               Get.back(result: false);
             }
           },
-          child: const Text('CANCEL'),
+          child: const Text('Batal'),
         ),
         TextButton(
           onPressed: () {
@@ -115,7 +115,7 @@ Future<bool?> confirm({
               Get.back(result: true);
             }
           },
-          child: const Text('OK'),
+          child: const Text('Iya'),
         )
       ],
     ),

@@ -19,7 +19,7 @@ class LoginController extends GetxController {
       final result = await UserData.login(usernameC.text, passwordC.text);
       onSubmitLoading = false;
       if (result) {
-        Get.toNamed(Routes.dashboard);
+        Get.offAllNamed(Routes.dashboard);
       }
     }
   }
