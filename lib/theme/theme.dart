@@ -60,12 +60,6 @@ class AppTheme {
     titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
   );
 
-  static const btnStyle = TextStyle(
-    fontSize: 16,
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-  );
-
   static const _borderTextFieldInput = OutlineInputBorder(
     borderSide: BorderSide(
       color: AppTheme.textFieldBorderColor,

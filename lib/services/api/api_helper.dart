@@ -5,9 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:itasoft_technical_test/helper/dialog.dart';
 
 //API URL
-const url = "http://192.168.100.212:3000/api/v1";
-
-const loginUrl = '/login';
+const url = "https://itasoft.int.joget.cloud/jw/api/sso";
 
 //Function Helper
 getHeader({Map<String, dynamic>? header}) {
@@ -89,22 +87,14 @@ Future<bool> _errorResponse(DioException exception, bool showMsg) async {
   if (showMsg) {
     if (response != null) {
       try {
-        if (statusCode == 400) {
-          final errorDetail = data['errorDetail'];
-          if (errorDetail == "bad_model_request") {
-            error(message: "Data yang dikirim tidak valid!");
-          } else {
-            info(message: data["errorData"]);
-          }
-          return false;
+        if (statusCode! >= 400) {
+          info(message: data["message"] ?? msg);
         }
         if (statusCode == 500) {
           error(message: msg);
-          return false;
         }
       } catch (e) {
         error(message: msg);
-        return false;
       }
     } else {
       if (exception.message != null) {

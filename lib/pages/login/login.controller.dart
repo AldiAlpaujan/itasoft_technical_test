@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:itasoft_technical_test/data/user.data.dart';
-import 'package:itasoft_technical_test/helper/dialog.dart';
+import 'package:itasoft_technical_test/routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  final _onSubmitLoading = false.obs;
+
   final formKey = GlobalKey<FormState>();
   final usernameC = TextEditingController();
   final passwordC = TextEditingController();
 
+  bool get onSubmitLoading => _onSubmitLoading.value;
+  set onSubmitLoading(bool value) => _onSubmitLoading.value = value;
+
   login() async {
     if (formKey.currentState!.validate()) {
-      waitingDialog();
+      onSubmitLoading = true;
       final result = await UserData.login(usernameC.text, passwordC.text);
-      Get.back();
+      onSubmitLoading = false;
+      if (result) {
+        Get.toNamed(Routes.dashboard);
+      }
     }
   }
 }
