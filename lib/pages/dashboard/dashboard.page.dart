@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:itasoft_technical_test/enum/sort_filter.enum.dart';
 import 'package:itasoft_technical_test/helper/global_var.dart';
 import 'package:itasoft_technical_test/pages/dashboard/dashboard.controller.dart';
 import 'package:itasoft_technical_test/theme/theme.dart';
 import 'package:itasoft_technical_test/widget/app_custom_appbar.dart';
 import 'package:itasoft_technical_test/widget/app_logout.dart';
+import 'package:itasoft_technical_test/widget/app_product_card.dart';
 import 'package:itasoft_technical_test/widget/app_product_card_skeleton.dart';
+import 'package:itasoft_technical_test/widget/app_smart_refresh.dart';
 import 'package:itasoft_technical_test/widget/app_text_field_input.dart';
 import 'package:itasoft_technical_test/widget/app_user_header.dart';
 
@@ -25,15 +28,22 @@ class DashboardPage extends GetView<DashboardController> {
           ),
         ],
       ),
-      body: ListView(
-        controller: controller.scrollC,
-        padding: const EdgeInsets.all(AppTheme.padding),
-        children: [
-          const AppUserHeader(),
-          warehouseCard(),
-          filter(),
-          productList(),
-        ],
+      body: Obx(
+        () => AppSmartRefresh(
+          noData: controller.lastPage,
+          onLoading: controller.onLoad,
+          onRefresh: controller.onRefresh,
+          child: ListView(
+            controller: controller.scrollC,
+            padding: const EdgeInsets.all(AppTheme.padding),
+            children: [
+              const AppUserHeader(),
+              warehouseCard(),
+              filter(),
+              productList(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -89,36 +99,90 @@ class DashboardPage extends GetView<DashboardController> {
       child: Row(
         children: [
           Expanded(
-            child: AppTextFieldInput(
-              hintText: "Pencarian...",
-              controller: controller.searchC,
+            child: Obx(
+              () => AppTextFieldInput(
+                hintText: "Pencarian...",
+                controller: controller.searchC,
+                suffixIcon: controller.showSearchClose
+                    ? IconButton(
+                        onPressed: () => controller.searchC.text = "",
+                        icon: const Icon(Icons.close_rounded),
+                      )
+                    : null,
+              ),
             ),
           ),
           const SizedBox(width: 8),
-          // TODO: sesuaikan bagian ini
-          const Expanded(
-            child: AppTextFieldInput(
-              hintText: "Pencarian...",
-            ),
-          ),
+          Expanded(child: expiredFilter()),
         ],
       ),
     );
   }
 
-  Widget productList() {
-    return GridView(
-      shrinkWrap: true,
-      controller: controller.scrollC,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        mainAxisExtent: 50,
+  Widget expiredFilter() {
+    return GestureDetector(
+      onTap: controller.changeSortFilter,
+      child: Container(
+        height: 47,
+        // padding: const EdgeInsets.symmetric(
+        //   vertical: 14,
+        // ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: AppTheme.textFieldBorderColor),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 14),
+            const Expanded(child: Text("Exp Date")),
+            Obx(
+              () {
+                switch (controller.sortFilter) {
+                  case SortFilter.asc:
+                    return const Icon(
+                      Icons.arrow_drop_up_rounded,
+                      color: AppTheme.capColor,
+                    );
+                  case SortFilter.desc:
+                    return const Icon(
+                      Icons.arrow_drop_down_rounded,
+                      color: AppTheme.capColor,
+                    );
+                  default:
+                    return const Icon(
+                      Icons.more_horiz,
+                      color: AppTheme.capColor,
+                    );
+                }
+              },
+            ),
+            const SizedBox(width: 8),
+            const SizedBox(width: 4),
+          ],
+        ),
       ),
-      children: [
-        ...List.generate(20, (_) => const AppProductCardSkeleton()),
-      ],
+    );
+  }
+
+  Widget productList() {
+    return Obx(
+      () => GridView(
+        shrinkWrap: true,
+        controller: controller.scrollC,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          mainAxisExtent: 50,
+        ),
+        children: [
+          if (controller.loading)
+            ...List.generate(20, (_) => const AppProductCardSkeleton())
+          else
+            ...controller.products.map((e) => AppProductCard(product: e)),
+        ],
+      ),
     );
   }
 }

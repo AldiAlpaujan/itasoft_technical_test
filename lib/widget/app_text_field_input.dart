@@ -8,6 +8,7 @@ class AppTextFieldInput extends StatefulWidget {
   final TextInputAction? textInputAction;
   final TextEditingController? controller;
   final bool obscureText;
+  final Widget? suffixIcon;
   final String? Function(String?)? validator;
 
   const AppTextFieldInput({
@@ -18,6 +19,7 @@ class AppTextFieldInput extends StatefulWidget {
     this.controller,
     this.textInputAction,
     this.validator,
+    this.suffixIcon,
   });
 
   @override
@@ -65,7 +67,7 @@ class _AppTextFieldInputState extends State<AppTextFieldInput> {
               fontWeight: FontWeight.w400,
               fontSize: 14,
             ),
-            suffixIcon: widget.obscureText ? seeTextIcon() : null,
+            suffixIcon: widget.obscureText ? seeTextIcon() : widget.suffixIcon,
           ),
         ),
       ),
