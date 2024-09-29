@@ -10,6 +10,7 @@ const url = "https://itasoft.int.joget.cloud/jw/api";
 const loginUrl = '/sso';
 const warehouseUrl = '/list/list_frmUserMapping';
 const productUrl = '/list/list_formStokBarang';
+const productAdjustmentUrl = '/list/listAdjustmentStok';
 const productDetailUrl = '/form/formStokBarang';
 
 //Function Helper
