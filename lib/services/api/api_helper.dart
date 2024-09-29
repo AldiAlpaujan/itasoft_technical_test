@@ -5,7 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:itasoft_technical_test/helper/dialog.dart';
 
 //API URL
-const url = "https://itasoft.int.joget.cloud/jw/api/sso";
+const url = "https://itasoft.int.joget.cloud/jw/api";
+
+const loginUrl = '/sso';
+const warehouseUrl = '/list/list_frmUserMapping';
 
 //Function Helper
 getHeader({Map<String, dynamic>? header}) {

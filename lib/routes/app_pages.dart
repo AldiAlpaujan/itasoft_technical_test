@@ -1,3 +1,5 @@
+import 'package:itasoft_technical_test/pages/dashboard/dashboard.controller.dart';
+import 'package:itasoft_technical_test/pages/dashboard/dashboard.page.dart';
 import 'package:itasoft_technical_test/pages/login/login.controller.dart';
 import 'package:itasoft_technical_test/pages/login/login.page.dart';
 
@@ -16,6 +18,11 @@ class AppPages {
       name: Routes.login,
       page: () => const LoginPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => LoginController())),
+    ),
+    GetPage(
+      name: Routes.dashboard,
+      page: () => const DashboardPage(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => DashboardController())),
     ),
   ];
 }
