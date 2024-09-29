@@ -63,4 +63,27 @@ class ProductData {
     }
     return null;
   }
+
+  static Future<bool> adjustmentStock(ProductDetail data) async {
+    final response = await ApiService.post(
+      url + productAdjustmentStockUrl,
+      data: {
+        "id_barang": data.id,
+        "expired": data.expired.toString(),
+        "createdByName": data.createdByName,
+        "image": data.image,
+        "gudang": data.gudang,
+        "kategori": data.kategori,
+        "dateModified": data.dateModified.toString(),
+        "stok": data.stok,
+        "dateCreated": data.dateCreated.toString(),
+        "modifiedByName": data.modifiedByName,
+        "createdBy": data.createdBy,
+        "modifiedBy": data.modifiedBy,
+        "nama_barang": data.namaBarang,
+      },
+    );
+    final success = await manageResponse(response);
+    return success;
+  }
 }

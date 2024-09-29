@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:itasoft_technical_test/helper/formatter.dart';
 import 'package:itasoft_technical_test/helper/global_var.dart';
-import 'package:itasoft_technical_test/pages/product_detail/product_detail.controller.dart';
+import 'package:itasoft_technical_test/pages/adjustment/adjustment.controller.form.dart';
 import 'package:itasoft_technical_test/theme/theme.dart';
+import 'package:itasoft_technical_test/widget/app_button.dart';
 import 'package:itasoft_technical_test/widget/app_custom_appbar.dart';
 import 'package:itasoft_technical_test/widget/app_key_value_item.dart';
 import 'package:itasoft_technical_test/widget/app_loading.dart';
 import 'package:itasoft_technical_test/widget/app_logout.dart';
-import 'package:itasoft_technical_test/widget/app_user_header.dart';
 
-class ProductDetailPage extends GetView<ProductDetailController> {
-  const ProductDetailPage({super.key});
+class AdjustmentFormPage extends GetView<AdjustmentFormController> {
+  const AdjustmentFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppCustomAppBar(
-        title: "Detail",
+        title: "Adjustment Stock",
         showLeading: false,
         actions: [
           Padding(
@@ -33,7 +33,6 @@ class ProductDetailPage extends GetView<ProductDetailController> {
             padding: const EdgeInsets.all(AppTheme.padding),
             child: Column(
               children: [
-                const AppUserHeader(),
                 headerCard(),
                 imageCard(),
                 AppKeyValueItem(
@@ -61,19 +60,12 @@ class ProductDetailPage extends GetView<ProductDetailController> {
                   value: controller.product.safetyStok,
                   padding: const EdgeInsets.only(bottom: 16),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: Get.back,
-                      child: const Text("Kembali"),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: controller.adjustmentPage,
-                      child: const Text("Adjustment Stok"),
-                    ),
-                  ],
+                Obx(
+                  () => AppButton(
+                    text: "Request Item",
+                    loading: controller.btnLoading,
+                    onPressed: controller.requestItem,
+                  ),
                 )
               ],
             ),
@@ -87,7 +79,7 @@ class ProductDetailPage extends GetView<ProductDetailController> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(top: 16, bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppTheme.borderColor),

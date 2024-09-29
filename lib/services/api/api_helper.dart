@@ -11,6 +11,7 @@ const loginUrl = '/sso';
 const warehouseUrl = '/list/list_frmUserMapping';
 const productUrl = '/list/list_formStokBarang';
 const productAdjustmentUrl = '/list/listAdjustmentStok';
+const productAdjustmentStockUrl = '/form/adjustmentStok';
 const productDetailUrl = '/form/formStokBarang';
 
 //Function Helper

@@ -2,15 +2,18 @@ import 'package:get/get.dart';
 import 'package:itasoft_technical_test/data/product.data.dart';
 import 'package:itasoft_technical_test/helper/dialog.dart';
 import 'package:itasoft_technical_test/model/product.detail.dart';
-import 'package:itasoft_technical_test/routes/app_pages.dart';
 
-class ProductDetailController extends GetxController {
+class AdjustmentFormController extends GetxController {
   final _arg = Get.arguments;
   final _loading = false.obs;
+  final _btnLoading = false.obs;
   final _product = Rx<ProductDetail?>(null);
 
   bool get loading => _loading.value;
   set loading(bool value) => _loading.value = value;
+
+  bool get btnLoading => _btnLoading.value;
+  set btnLoading(bool value) => _btnLoading.value = value;
 
   ProductDetail get product => _product.value!;
   set product(ProductDetail? value) => _product.value = value;
@@ -25,13 +28,13 @@ class ProductDetailController extends GetxController {
     }
   }
 
-  adjustmentPage() async {
-    final result = await Get.toNamed(
-      Routes.adjustmentForm,
-      arguments: product.id,
-    );
-    if (result != null) {
-      getData();
+  requestItem() async {
+    btnLoading = true;
+    final success = await ProductData.adjustmentStock(_product.value!);
+    btnLoading = false;
+    if (success) {
+      Get.back(result: true);
+      info(message: "Adjustment stock berhasil");
     }
   }
 

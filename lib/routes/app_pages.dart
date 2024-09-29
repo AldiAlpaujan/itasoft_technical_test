@@ -1,4 +1,6 @@
 import 'package:itasoft_technical_test/pages/adjustment/adjustment.controller.dart';
+import 'package:itasoft_technical_test/pages/adjustment/adjustment.controller.form.dart';
+import 'package:itasoft_technical_test/pages/adjustment/adjustment.page.form.dart';
 import 'package:itasoft_technical_test/pages/dashboard/dashboard.controller.dart';
 import 'package:itasoft_technical_test/pages/login/login.controller.dart';
 import 'package:itasoft_technical_test/pages/login/login.page.dart';
@@ -37,6 +39,13 @@ class AppPages {
       page: () => const ProductDetailPage(),
       binding: BindingsBuilder(
         () => Get.lazyPut(() => ProductDetailController()),
+      ),
+    ),
+    GetPage(
+      name: Routes.adjustmentForm,
+      page: () => const AdjustmentFormPage(),
+      binding: BindingsBuilder(
+        () => Get.lazyPut(() => AdjustmentFormController()),
       ),
     ),
   ];
