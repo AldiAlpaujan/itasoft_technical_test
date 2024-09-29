@@ -6,7 +6,8 @@ import 'package:itasoft_technical_test/theme/theme.dart';
 import 'package:itasoft_technical_test/widget/app_custom_appbar.dart';
 import 'package:itasoft_technical_test/widget/app_data_not_found.dart';
 import 'package:itasoft_technical_test/widget/app_logout.dart';
-import 'package:itasoft_technical_test/widget/app_product_card_skeleton.dart';
+import 'package:itasoft_technical_test/widget/app_product_ads_card.dart';
+import 'package:itasoft_technical_test/widget/app_product_ads_card_skeleton.dart';
 import 'package:itasoft_technical_test/widget/app_smart_refresh.dart';
 import 'package:itasoft_technical_test/widget/app_text_field_input.dart';
 import 'package:itasoft_technical_test/widget/app_user_header.dart';
@@ -136,26 +137,26 @@ class AdjustmentPage extends GetView<AdjustmentController> {
 
   Widget productList() {
     return Obx(
-      () => GridView(
+      () => ListView(
         shrinkWrap: true,
         controller: controller.scrollC,
         padding: const EdgeInsets.symmetric(horizontal: AppTheme.padding),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          mainAxisExtent: 50,
-        ),
         children: [
           if (controller.loading)
-            ...List.generate(20, (_) => const AppProductCardSkeleton())
-          // else
-          //   ...controller.products.map(
-          //     (e) => GestureDetector(
-          //       onTap: () => controller.productDetailPage(e),
-          //       child: AppProductCard(product: e),
-          //     ),
-          //   ),
+            ...List.generate(
+              20,
+              (i) => Padding(
+                padding: EdgeInsets.only(bottom: i == 19 ? 0 : 12.0),
+                child: const AppProductAdsCardSkeleton(),
+              ),
+            )
+          else
+            ...controller.products.map(
+              (e) => Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: AppProductAdsCard(product: e),
+              ),
+            ),
         ],
       ),
     );

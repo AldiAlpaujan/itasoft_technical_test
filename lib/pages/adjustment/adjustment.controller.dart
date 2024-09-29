@@ -4,8 +4,6 @@ import 'package:itasoft_technical_test/data/product.data.dart';
 import 'package:itasoft_technical_test/enum/sort_filter.enum.dart';
 import 'package:itasoft_technical_test/helper/function.dart';
 import 'package:itasoft_technical_test/model/product.adjustment.dart';
-import 'package:itasoft_technical_test/model/product.dart';
-import 'package:itasoft_technical_test/routes/app_pages.dart';
 
 class AdjustmentController extends GetxController {
   var currentPage = 1;
@@ -21,17 +19,22 @@ class AdjustmentController extends GetxController {
   final _products = <ProductAdjustment>[].obs;
 
   List<ProductAdjustment> get products {
-    // switch (sortFilter) {
-    //   case SortFilter.asc:
-    //     final tmp = [..._products()];
-    //     return tmp..sort((a, b) => a.cExpired.compareTo(b.cExpired));
-    //   case SortFilter.desc:
-    //     final tmp = [..._products()];
-    //     return tmp..sort((a, b) => b.cExpired.compareTo(a.cExpired));
-    //   default:
-    //     return _products();
-    // }
-    return _products();
+    switch (sortFilter) {
+      case SortFilter.asc:
+        final tmp = [..._products()];
+        return tmp
+          ..sort(
+            (a, b) => a.expired.toString().compareTo(b.expired.toString()),
+          );
+      case SortFilter.desc:
+        final tmp = [..._products()];
+        return tmp
+          ..sort(
+            (a, b) => b.expired.toString().compareTo(a.expired.toString()),
+          );
+      default:
+        return _products();
+    }
   }
 
   set products(List<ProductAdjustment> value) => _products.value = value;
@@ -82,10 +85,6 @@ class AdjustmentController extends GetxController {
     } else if (sortFilter == SortFilter.desc) {
       sortFilter = SortFilter.unknow;
     }
-  }
-
-  productDetailPage(Product product) {
-    Get.toNamed(Routes.productDetail, arguments: product.id);
   }
 
   _searchListener() {
