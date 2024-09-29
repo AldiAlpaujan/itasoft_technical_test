@@ -4,6 +4,8 @@ import 'package:itasoft_technical_test/pages/login/login.controller.dart';
 import 'package:itasoft_technical_test/pages/login/login.page.dart';
 
 import 'package:get/get.dart';
+import 'package:itasoft_technical_test/pages/product_detail/product_detail.controller.dart';
+import 'package:itasoft_technical_test/pages/product_detail/product_detail.page.dart';
 import 'package:itasoft_technical_test/pages/splash_screen.dart';
 
 part 'app_routes.dart';
@@ -23,6 +25,13 @@ class AppPages {
       name: Routes.dashboard,
       page: () => const DashboardPage(),
       binding: BindingsBuilder(() => Get.lazyPut(() => DashboardController())),
+    ),
+    GetPage(
+      name: Routes.productDetail,
+      page: () => const ProductDetailPage(),
+      binding: BindingsBuilder(
+        () => Get.lazyPut(() => ProductDetailController()),
+      ),
     ),
   ];
 }

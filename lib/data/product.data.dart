@@ -1,5 +1,6 @@
 import 'package:itasoft_technical_test/helper/global_var.dart';
 import 'package:itasoft_technical_test/model/product.dart';
+import 'package:itasoft_technical_test/model/product.detail.dart';
 import 'package:itasoft_technical_test/services/api/api_helper.dart';
 import 'package:itasoft_technical_test/services/api/api_service.dart';
 
@@ -27,7 +28,15 @@ class ProductData {
     return [];
   }
 
-  static Future<Product?> getSingle(String id) async {
+  static Future<ProductDetail?> getSingle(String id) async {
+    final response = await ApiService.get(
+      '$url$productDetailUrl/$id',
+    );
+    final success = await manageResponse(response);
+    if (success) {
+      final data = getDataResponse(response);
+      return ProductDetail.fromJson(data);
+    }
     return null;
   }
 }

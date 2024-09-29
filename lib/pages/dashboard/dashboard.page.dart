@@ -48,13 +48,13 @@ class DashboardPage extends GetView<DashboardController> {
               ),
               SliverToBoxAdapter(child: warehouseCard()),
               SliverToBoxAdapter(child: filter()),
-              if (controller.products.isNotEmpty)
-                SliverToBoxAdapter(child: productList())
-              else
+              if (controller.products.isEmpty && !controller.loading)
                 const SliverFillRemaining(
                   hasScrollBody: false,
                   child: AppDataNotFound(),
-                ),
+                )
+              else
+                SliverToBoxAdapter(child: productList())
             ],
           ),
         ),
@@ -199,7 +199,12 @@ class DashboardPage extends GetView<DashboardController> {
           if (controller.loading)
             ...List.generate(20, (_) => const AppProductCardSkeleton())
           else
-            ...controller.products.map((e) => AppProductCard(product: e)),
+            ...controller.products.map(
+              (e) => GestureDetector(
+                onTap: () => controller.productDetailPage(e),
+                child: AppProductCard(product: e),
+              ),
+            ),
         ],
       ),
     );

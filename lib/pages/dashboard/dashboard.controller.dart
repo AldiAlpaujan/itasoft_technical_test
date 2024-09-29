@@ -4,6 +4,7 @@ import 'package:itasoft_technical_test/data/product.data.dart';
 import 'package:itasoft_technical_test/enum/sort_filter.enum.dart';
 import 'package:itasoft_technical_test/helper/function.dart';
 import 'package:itasoft_technical_test/model/product.dart';
+import 'package:itasoft_technical_test/routes/app_pages.dart';
 
 class DashboardController extends GetxController {
   var currentPage = 1;
@@ -79,6 +80,10 @@ class DashboardController extends GetxController {
     } else if (sortFilter == SortFilter.desc) {
       sortFilter = SortFilter.unknow;
     }
+  }
+
+  productDetailPage(Product product) {
+    Get.toNamed(Routes.productDetail, arguments: product.id);
   }
 
   _searchListener() {

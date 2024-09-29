@@ -5,4 +5,5 @@ abstract class Routes {
   static const splashScreen = '/splash-screen';
   static const login = '/login';
   static const dashboard = '/dashboard';
+  static const productDetail = '/product/detail';
 }

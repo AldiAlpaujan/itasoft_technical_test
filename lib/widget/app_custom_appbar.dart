@@ -23,7 +23,10 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: showLeading ? const BackButton(color: Colors.black) : null,
+        leading: showLeading
+            ? const BackButton(color: Colors.black)
+            : const SizedBox(),
+        leadingWidth: showLeading ? null : 0,
         title: Padding(
           padding: EdgeInsets.only(left: !showLeading ? AppTheme.padding : 0),
           child: Text(title),
